@@ -68,7 +68,7 @@ if [ $# -ne 4 ]; then
   echo "e.g.: utils/prepare_lang.sh data/local/dict <SPOKEN_NOISE> data/local/lang data/lang"
   echo "<dict-src-dir> should contain the following files:"
   echo " extra_questions.txt  lexicon.txt nonsilence_phones.txt  optional_silence.txt  silence_phones.txt"
-  echo "See http://kaldi.sourceforge.net/data_prep.html#data_prep_lang_creating for more info."
+  echo "See http://kaldi-asr.org/doc/data_prep.html#data_prep_lang_creating for more info."
   echo "options: "
   echo "     --num-sil-states <number of states>             # default: 5, #states in silence models."
   echo "     --num-nonsil-states <number of states>          # default: 3, #states in non-silence models."
@@ -369,8 +369,7 @@ cat $dir/phones/align_lexicon.txt | utils/sym2int.pl -f 3- $dir/phones.txt | \
 if $silprob; then
   # Usually it's the same as having a fixed-prob L.fst
   # it matters a little bit in discriminative trainings
-  utils/make_lexicon_fst_silprob.pl $tmpdir/lexiconp_silprob_disambig.txt $srcdir/silprob.txt $silphone '#'$ndisambig | \
-     sed 's=\#[0-9][0-9]*=<eps>=g' | \
+  utils/make_lexicon_fst_silprob.pl $tmpdir/lexiconp_silprob.txt $srcdir/silprob.txt $silphone "<eps>" | \
      fstcompile --isymbols=$dir/phones.txt --osymbols=$dir/words.txt \
      --keep_isymbols=false --keep_osymbols=false |   \
      fstarcsort --sort_type=olabel > $dir/L.fst || exit 1;
